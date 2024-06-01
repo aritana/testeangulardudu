@@ -8,7 +8,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class ApiService {
 
-  BACK_END_BASE_URL="https://lendopsserver.vercel.app/";
+  BACK_END_BASE_URL="https://lendopsserver.vercel.app";
   BOOKS_API_BASE_URL="https://openlibrary.org"
   MOVIES_API_BASE_URL="https://api.themoviedb.org/3";
   moviesApikey;
