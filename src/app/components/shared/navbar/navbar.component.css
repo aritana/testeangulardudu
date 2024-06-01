@@ -1,0 +1,17 @@
+p {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.p-link {
+  display: flex;
+  align-items: center;
+  font-size: 3vh; /* Ajuste o tamanho da fonte conforme necessário */
+  margin-right: 8vh; /* Adicione espaçamento entre os <p> */
+}
+
+.hoverable:hover {
+  cursor: pointer;
+  color: blue; /* Altere a cor conforme necessário */
+}

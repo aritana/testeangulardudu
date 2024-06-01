@@ -1,0 +1,42 @@
+.comments-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: purple;
+  box-shadow: 5px 5px 10px rgb(0, 0, 0);
+}
+
+.comment {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.username {
+  color: white;
+}
+
+.date {
+  color: #999;
+  font-size: 0.9em;
+}
+
+.comment-body {
+  margin-top: 5px;
+}
+
+h3 {
+  color: white;
+}

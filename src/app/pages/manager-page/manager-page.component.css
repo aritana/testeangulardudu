@@ -1,0 +1,36 @@
+h3 {
+  color: white;
+}
+
+.admin-div {
+  background-color: purple;
+  border-radius: 15px;
+  padding: 3vh;
+}
+
+.option-row {
+  padding-bottom: 3vh;
+}
+
+.p-title {
+  font-size: 3vh;
+}
+
+.p-title:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.dataTableFontHeader {
+  font-size: .85em;
+}
+
+.table-class {
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 30px;
+}
+
+.btn {
+  margin-left: 10px;
+}

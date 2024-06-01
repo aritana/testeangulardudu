@@ -1,0 +1,22 @@
+h1 {
+  color: white;
+}
+
+.admin-div {
+  background-color: purple;
+  border-radius: 15px;
+  padding: 3vh;
+}
+
+.option-row {
+  padding-bottom: 3vh;
+}
+
+.p-title {
+  font-size: 3vh;
+}
+
+.p-title:hover {
+  color: gray;
+  cursor: pointer;
+}

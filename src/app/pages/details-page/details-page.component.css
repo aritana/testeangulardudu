@@ -1,0 +1,13 @@
+.details-div {
+  background-color: purple;
+  border-radius: 15px;
+}
+
+h3 {
+  color: white;
+}
+
+.div-shadow {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 10px rgb(0, 0, 0);
+}

@@ -1,0 +1,18 @@
+.header-row {
+  border-radius: 15px;
+  background-color: purple;
+}
+
+.h1-title:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.h1-title {
+  color: white;
+}
+
+.admin-div {
+  padding: 1vh;
+  margin: 5vh;
+}

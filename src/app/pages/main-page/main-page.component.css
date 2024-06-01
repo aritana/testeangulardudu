@@ -1,0 +1,33 @@
+p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-size: 3vh;
+}
+
+.custom-background {
+  /* background-image: url('../../../assets/images/colagem.png'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.row {
+  padding-bottom: 10px;
+}
+
+.btn {
+  margin: 10px;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-size: 5vh;
+}

@@ -1,0 +1,43 @@
+h2 {
+  color: white;
+  margin: 0;
+}
+
+.img-background {
+  padding-top: 20px;
+}
+
+.content-select {
+  text-align: center;
+  border-radius: 10px;
+}
+
+.content-select {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: purple;
+  border-radius: 20px;
+}
+
+.hover-effect:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.img-background {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+h2 {
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}

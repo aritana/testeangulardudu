@@ -1,0 +1,49 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container-flex col-sm-11 admin-div mx-auto">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h3>Gerenciar {{title}}</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]='searchText' placeholder="Insira o nome que deseja buscar">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="search()">Buscar</button>
+          <button class="btn btn-primary" (click)="loadInventory()">Ver Catálogo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row table-class">
+    <p-table [value]="rowData" [columns]="columnHeaders">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td>
+            <img [src]="rowData.banner_url" alt="Imagem" style="max-width: 10vh;">
+          </td>
+          <td *ngFor="let col of columns">
+            <div *ngIf="col.header !== 'Capa'">
+              {{rowData[col.field]}}
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="showDetails(rowData.id)">Detalhes</button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
