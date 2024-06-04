@@ -33,7 +33,7 @@ export class DetailsPageComponent implements OnInit{
   imageUrl: any;
   isAdmin: StorageValueTypes;
   isLoggedIn: StorageValueTypes;
-  isInLibrary: boolean;
+  isInLibrary: StorageValueTypes;
 
   constructor(
     private navigationService: NavigationService,
@@ -44,8 +44,7 @@ export class DetailsPageComponent implements OnInit{
   ) {
     this.isLoggedIn = this.storageService.retrieveData(STORAGE_KEYS.isLoggedIn);
     this.isAdmin = this.storageService.retrieveData(STORAGE_KEYS.isAdmin);
-
-    this.isInLibrary = false;
+    this.isInLibrary = this.storageService.retrieveData(STORAGE_KEYS.isInLibrary);
 
     if (!this.isLoggedIn) {
       this.navigateToPage(ROUTE_NAMES.login_page, '');
@@ -55,6 +54,7 @@ export class DetailsPageComponent implements OnInit{
   ngOnInit(): void {
     this.itemId = this.storageService.retrieveData(STORAGE_KEYS.currentMediaId);
     this.title = this.storageService.retrieveData(STORAGE_KEYS.currentMediaType);
+    this.isInLibrary = this.storageService.retrieveData(STORAGE_KEYS.isInLibrary);
 
     const searchMovieImage = (): string => {
       const baseUrl = 'https://image.tmdb.org/t/p/';
@@ -119,9 +119,11 @@ export class DetailsPageComponent implements OnInit{
       this.apiService.getMovieById(this.itemId).subscribe({
         next: () => {
           console.log(`In Inventory ${this.itemId}`);
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: true});
           this.isInLibrary = true;
         },
         error: () => {
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: false});
           this.isInLibrary = false;
         }
       });
@@ -131,9 +133,12 @@ export class DetailsPageComponent implements OnInit{
       this.apiService.getSerieById(this.itemId).subscribe({
         next: () => {
           console.log(`In Inventory ${this.itemId}`);
+
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: true});
           this.isInLibrary = true;
         },
         error: () => {
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: false});
           this.isInLibrary = false;
         }
       });
@@ -143,10 +148,12 @@ export class DetailsPageComponent implements OnInit{
       this.apiService.getBookById(this.itemId).subscribe({
         next: () => {
           console.log(`In Inventory ${this.itemId}`);
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: true});
           this.isInLibrary = true;
         },
         error: () => {
           console.log(`Not in Inventory ${this.itemId}`);
+          this.storageService.saveData({key: STORAGE_KEYS.isInLibrary, value: false});
           this.isInLibrary = false;
         }
       });

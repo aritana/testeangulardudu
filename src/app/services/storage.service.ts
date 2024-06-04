@@ -16,6 +16,7 @@ export enum STORAGE_KEYS {
   currentPage,
   username,
   name,
+  isInLibrary,
   email
 }
 
@@ -32,7 +33,8 @@ export class StorageService {
     { key: STORAGE_KEYS.username, value: 'noUsername'},
     { key: STORAGE_KEYS.name, value: 'noName'},
     { key: STORAGE_KEYS.email, value: 'email@email.com'},
-    { key: STORAGE_KEYS.currentPage, value: ROUTE_NAMES.main_page}
+    { key: STORAGE_KEYS.currentPage, value: ROUTE_NAMES.main_page},
+    { key: STORAGE_KEYS.isInLibrary, value: false}
   ];
 
   keyExists(key: STORAGE_KEYS): StorageKeyType {

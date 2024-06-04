@@ -46,18 +46,21 @@ export class LoginService {
     const message: string[] = [];
     this.lendopService.loginUser(accountData).subscribe({
       next: account => {
-        console.log('Usuário logado com sucesso!');
         console.log(account);
+        if (account) {
+          this.storageService.saveData({key: STORAGE_KEYS.isAdmin, value: account.isAdmin });
+          this.storageService.saveData({key: STORAGE_KEYS.isLoggedIn, value: true });
+          this.storageService.saveData({key: STORAGE_KEYS.username, value: account.username });
+          this.storageService.saveData({key: STORAGE_KEYS.name, value: account.name });
+          this.storageService.saveData({key: STORAGE_KEYS.email, value: account.email });
 
-        this.storageService.saveData({key: STORAGE_KEYS.isAdmin, value: account.isAdmin });
-        this.storageService.saveData({key: STORAGE_KEYS.isLoggedIn, value: true });
-        this.storageService.saveData({key: STORAGE_KEYS.username, value: account.username });
-        this.storageService.saveData({key: STORAGE_KEYS.name, value: account.name });
-        this.storageService.saveData({key: STORAGE_KEYS.email, value: account.email });
-
-        account.isAdmin
-          ? this.navigateToPage(ROUTE_NAMES.admin_page, '')
-          : this.navigateToPage(ROUTE_NAMES.explore_page, '');
+          account.isAdmin
+            ? this.navigateToPage(ROUTE_NAMES.admin_page, '')
+            : this.navigateToPage(ROUTE_NAMES.explore_page, '');
+        } else {
+          console.error('Erro ao logar usuário');
+          message.push(defaultLogin());
+        }
       },
       error: error => {
         console.error('Erro ao logar usuário:', error);

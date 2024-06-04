@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationService } from '../../../services/navigation.service';
+import { ROUTE_NAMES } from '../../../app.routes';
 
 @Component({
   selector: 'app-content-select',
@@ -28,19 +29,19 @@ export class ContentSelectComponent implements OnInit {
     switch (this.title) {
     case 'filmes':
       this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-      this.navPage = 'list-content';
+      this.navPage = ROUTE_NAMES.list_content;
       break;
     case 'series':
       this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-      this.navPage = 'list-content';
+      this.navPage = ROUTE_NAMES.list_content;
       break;
     case 'livros':
       this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-      this.navPage = 'list-content';
+      this.navPage = ROUTE_NAMES.list_content;
       break;
     default:
       this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-      this.navPage = 'list-content';
+      this.navPage = ROUTE_NAMES.list_content;
       break;
     }
   }

@@ -7,6 +7,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class LendopsService {
 
+  // BACK_END_BASE_URL='http://localhost:8080';
   BACK_END_BASE_URL='https://lendopsback.onrender.com';
   language;
   httpOptions;
@@ -46,5 +47,13 @@ export class LendopsService {
 
   getTotalLogins(): Observable<number> {
     return this.http.get<number>(`${this.BACK_END_BASE_URL}/login/accessCount`);
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(`${this.BACK_END_BASE_URL}/users/getAllUsers`);
+  }
+
+  deleteUserById(id: string): Observable<number> {
+    return this.http.delete<any>(`${this.BACK_END_BASE_URL}/users/delete/${id}`);
   }
 }

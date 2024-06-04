@@ -8,6 +8,7 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { STORAGE_KEYS, StorageService, StorageValueTypes } from '../../services/storage.service';
 import { ROUTE_NAMES } from '../../app.routes';
+import { LendopsService } from '../../services/lendops.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class ManagerPageComponent implements OnInit{
   constructor(
     private navigationService: NavigationService,
     private apiService: ApiService,
+    private lendopsService: LendopsService,
     private storageService: StorageService
   ) {
     if (!this.storageService.retrieveData(STORAGE_KEYS.isLoggedIn)
@@ -140,6 +142,7 @@ export class ManagerPageComponent implements OnInit{
     const searchSeries = (): void => {
       this.apiService.getTvShowByName(this.searchText).subscribe({
         next: show => {
+          console.log(show);
           this.movieList = show;
           this.loadResults();
         },
@@ -227,10 +230,11 @@ export class ManagerPageComponent implements OnInit{
     };
 
     const loadPerfis = (): void => {
-      this.apiService.getAllProfiles().subscribe({
-        next: comments => {
-          comments.forEach((comment: any) => {
-            this.rowData.push(comment);
+      this.lendopsService.getAllUsers().subscribe({
+        next: users => {
+          console.log(users);
+          users.forEach((user: any) => {
+            this.rowData.push(user);
           });
         },
         error: error => {
@@ -244,7 +248,7 @@ export class ManagerPageComponent implements OnInit{
       loadMovies();
       break;
 
-    case 'Series':
+    case 'Séries':
       loadSeries();
       break;
 
@@ -393,7 +397,7 @@ export class ManagerPageComponent implements OnInit{
     };
 
     const removeProfile = (): void => {
-      this.apiService.removeProfileById(id).subscribe({
+      this.lendopsService.deleteUserById(id).subscribe({
         next: (): void => {
           this.reloadPage();
         },

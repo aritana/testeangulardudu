@@ -4,6 +4,7 @@ import { ApiService } from '../../../services/api.service';
 import { STORAGE_KEYS, StorageService } from '../../../services/storage.service';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { ROUTE_NAMES } from '../../../app.routes';
+import { NavigationService } from '../../../services/navigation.service';
 
 @Component({
   selector: 'app-coments-content',
@@ -24,7 +25,8 @@ export class ComentsContentComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private storagesService: StorageService
+    private storagesService: StorageService,
+    private navigationService: NavigationService
   ) {
     this.mediaId = '';
     this.currentPage = '';
@@ -95,6 +97,7 @@ export class ComentsContentComponent implements OnInit {
     this.apiService.removeCommentById(id).subscribe({
       next: (): void => {
         console.log(`Removed ${id}`);
+        this.navigationService.navigateToPage(this.currentPage, '');
       },
       error: error => {
         console.log(error);
