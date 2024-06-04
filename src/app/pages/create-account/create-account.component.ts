@@ -60,11 +60,9 @@ export class CreateAccountComponent implements OnInit {
     });
   }
 
-
   goBack(): void {
     this.navigationService.navigateToPage(ROUTE_NAMES.main_page, '');
   }
-
 
   createAccount(): void {
     if (this.accountForm.valid) {

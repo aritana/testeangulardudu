@@ -9,7 +9,7 @@
     <div *ngFor="let row of imageSrcs" class="mb-3">
       <div class="row">
         <div class="col-md-2 div-image" *ngFor="let imageSrc of row; let i = index" (click)="navigateToPageByIndex(imageSrc.id)" style="cursor: pointer;">
-          <img [src]="imageSrc.src" alt="Imagem" i18n-alt style="width: 100%;">
+          <img [src]="imageSrc.src" alt="Imagem" style="width: 100%;">
         </div>
       </div>
     </div>

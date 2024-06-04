@@ -25,5 +25,4 @@ export class ExplorePageComponent {
   navigateToPage(page: string, title: string): void {
     this.navigationService.navigateToPage(page, title);
   }
-
 }
