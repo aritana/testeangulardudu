@@ -3,16 +3,25 @@ import { ComentsContentComponent } from './coments-content/coments-content.compo
 import { NavigationService } from '../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../services/storage.service';
+import { STORAGE_KEYS, StorageService, StorageValueTypes } from '../../services/storage.service';
+import { ReviewDialogComponent } from '../../components/dialogs/review-dialog/review-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ROUTE_NAMES } from '../../app.routes';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-details-page',
   standalone: true,
-  imports: [ComentsContentComponent, RatingModule, FormsModule],
+  imports: [
+    ComentsContentComponent,
+    FormsModule,
+    NgbRatingModule,
+    CommonModule
+  ],
   templateUrl: './details-page.component.html',
-  styleUrls: ['./details-page.component.css', ]
+  styleUrls: ['./details-page.component.css' ]
 })
 export class DetailsPageComponent implements OnInit{
   title: any;
@@ -22,42 +31,44 @@ export class DetailsPageComponent implements OnInit{
   itemDescription: any;
   itemRating: any;
   imageUrl: any;
+  isAdmin: StorageValueTypes;
+  isLoggedIn: StorageValueTypes;
+  isInLibrary: boolean;
 
   constructor(
     private navigationService: NavigationService,
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private dialog: MatDialog
   ) {
-    if(!this.storageService.retrieveData('isAdmin').value) {
-      this.navigateToPage('login-page','');
+    this.isLoggedIn = this.storageService.retrieveData(STORAGE_KEYS.isLoggedIn);
+    this.isAdmin = this.storageService.retrieveData(STORAGE_KEYS.isAdmin);
+
+    this.isInLibrary = false;
+
+    if (!this.isLoggedIn) {
+      this.navigateToPage(ROUTE_NAMES.login_page, '');
     }
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const parts = params['title'].split('|');
-      this.itemId = parts[0];
-      this.title = parts[1];
-    });
+    this.itemId = this.storageService.retrieveData(STORAGE_KEYS.currentMediaId);
+    this.title = this.storageService.retrieveData(STORAGE_KEYS.currentMediaType);
 
-    const searchMovieImage = () => {
-      const baseUrl = "https://image.tmdb.org/t/p/";
-      const size = "w500";
+    const searchMovieImage = (): string => {
+      const baseUrl = 'https://image.tmdb.org/t/p/';
+      const size = 'w500';
       return `${baseUrl}${size}${this.itemImageUrl}`;
-    }
+    };
 
-    const searchSerieImage = () => {
-      const baseUrl = "https://image.tmdb.org/t/p/";
-      const size = "w500";
+    const searchSerieImage = (): string => {
+      const baseUrl = 'https://image.tmdb.org/t/p/';
+      const size = 'w500';
       return `${baseUrl}${size}${this.itemImageUrl}`;
-    }
+    };
 
-    const searchBookImage = () => {
-      return `https://covers.openlibrary.org/b/id/${this.itemImageUrl}-L.jpg`;
-    }
-
-    const getMovieDetails = () => {
+    const getMovieDetails = (): void => {
       this.apiService.getMovieDetails(this.itemId).subscribe({
         next: movie => {
           this.itemTitle = movie.title;
@@ -70,9 +81,9 @@ export class DetailsPageComponent implements OnInit{
           console.log(err);
         }
       });
-    }
+    };
 
-    const getSerieDetails = () => {
+    const getSerieDetails = (): void => {
       this.apiService.getTvShowDetails(this.itemId).subscribe({
         next: serie => {
           console.log(serie);
@@ -86,9 +97,9 @@ export class DetailsPageComponent implements OnInit{
           console.log(err);
         }
       });
-    }
+    };
 
-    const getBookDetails = () => {
+    const getBookDetails = (): void => {
       this.apiService.getExternalBookById(this.itemId).subscribe({
         next: b => {
           const book = b[`ISBN:${this.itemId}`];
@@ -104,84 +115,126 @@ export class DetailsPageComponent implements OnInit{
       });
     };
 
+    const getMovieInInventory = (): void => {
+      this.apiService.getMovieById(this.itemId).subscribe({
+        next: () => {
+          console.log(`In Inventory ${this.itemId}`);
+          this.isInLibrary = true;
+        },
+        error: () => {
+          this.isInLibrary = false;
+        }
+      });
+    };
+
+    const getSerieInInventory = (): void => {
+      this.apiService.getSerieById(this.itemId).subscribe({
+        next: () => {
+          console.log(`In Inventory ${this.itemId}`);
+          this.isInLibrary = true;
+        },
+        error: () => {
+          this.isInLibrary = false;
+        }
+      });
+    };
+
+    const getBookInInventory = (): void => {
+      this.apiService.getBookById(this.itemId).subscribe({
+        next: () => {
+          console.log(`In Inventory ${this.itemId}`);
+          this.isInLibrary = true;
+        },
+        error: () => {
+          console.log(`Not in Inventory ${this.itemId}`);
+          this.isInLibrary = false;
+        }
+      });
+    };
+
     switch(this.title) {
-      case 'Filmes':
-        getMovieDetails();
-        break;
-      case 'Séries':
-        getSerieDetails();
-        break;
-      case 'Livros':
-        getBookDetails();
-        break;
-      default:
-        this.imageUrl = '';
-        break;
+    case 'Filmes':
+      getMovieDetails();
+      getMovieInInventory();
+      break;
+    case 'Séries':
+      getSerieDetails();
+      getSerieInInventory();
+      break;
+    case 'Livros':
+      getBookDetails();
+      getBookInInventory();
+      break;
+    default:
+      this.imageUrl = '';
+      break;
     }
   }
 
-  navigateToPage(page: string, title: string) {
+  navigateToPage(page: string, title: string): void {
     this.navigationService.navigateToPage(page, title);
   }
 
-  removeFromLibrary() {
-    const removeMovie = () => {
+  removeFromLibrary(): void {
+    const removeMovie = (): void => {
       this.apiService.removeMovieById(this.itemId).subscribe({
-        next: result => {
+        next: () => {
           console.log('SUCESSFULLY DELETED');
         },
         error: error => {
           console.log(error);
         }
       });
-    }
+    };
 
-    const removeSerie = () => {
+    const removeSerie = (): void => {
       this.apiService.removeSerieById(this.itemId).subscribe({
-        next: result => {
+        next: () => {
           console.log('SUCESSFULLY DELETED');
         },
         error: error => {
           console.log(error);
         }
       });
-    }
+    };
 
-    const removeBook = () => {
+    const removeBook = (): void => {
       this.apiService.removeBookById(this.itemId).subscribe({
-        next: result => {
+        next: () => {
           console.log('SUCESSFULLY DELETED');
         },
         error: error => {
           console.log(error);
         }
       });
-    }
+    };
 
     switch (this.title) {
-      case 'Filmes':
-        removeMovie();
-        break;
-      case 'Séries':
-        removeSerie()
-        break;
-      case 'Livros':
-        removeBook()
-        break;
-      default:
-        break;
+    case 'Filmes':
+      removeMovie();
+      break;
+    case 'Séries':
+      removeSerie();
+      break;
+    case 'Livross':
+      removeBook();
+      break;
+    default:
+      break;
     }
+
+    this.isInLibrary = false;
   }
 
-  addToLibrary() {
-    const addMovie = () => {
+  addToLibrary(): void {
+    const addMovie = (): void => {
       this.apiService.getMovieById(this.itemId).subscribe({
-        next: media => {
+        next: () => {
           console.log('MEDIA ALREADY IN LIBRARY');
         },
-        error: error => {
+        error: () => {
           this.apiService.addMovie({id: this.itemId}).subscribe({
-            next: result => {
+            next: () => {
               console.log(`Successfully added ${this.itemId} to library`);
             },
             error: err => {
@@ -190,16 +243,16 @@ export class DetailsPageComponent implements OnInit{
           });
         }
       });
-    }
+    };
 
-    const addSerie = () => {
+    const addSerie = (): void => {
       this.apiService.getSerieById(this.itemId).subscribe({
-        next: media => {
+        next: () => {
           console.log('MEDIA ALREADY IN LIBRARY');
         },
-        error: error => {
+        error: () => {
           this.apiService.addSerie({id: this.itemId}).subscribe({
-            next: result => {
+            next: () => {
               console.log(`Successfully added ${this.itemId} to library`);
             },
             error: err => {
@@ -208,17 +261,17 @@ export class DetailsPageComponent implements OnInit{
           });
         }
       });
-    }
+    };
 
 
-    const addBook = () => {
+    const addBook = (): void => {
       this.apiService.getBookById(this.itemId).subscribe({
-        next: media => {
+        next: () => {
           console.log('MEDIA ALREADY IN LIBRARY');
         },
-        error: error => {
+        error: () => {
           this.apiService.addBook({id: this.itemId}).subscribe({
-            next: result => {
+            next: () => {
               console.log(`Successfully added ${this.itemId} to library`);
             },
             error: err => {
@@ -227,20 +280,38 @@ export class DetailsPageComponent implements OnInit{
           });
         }
       });
-    }
+    };
 
     switch (this.title) {
-      case 'Filmes':
-        addMovie();
-        break;
-      case 'Séries':
-        addSerie()
-        break;
-      case 'Livros':
-        addBook();
-        break;
-      default:
-        break;
+    case 'Filmes':
+      addMovie();
+      break;
+    case 'Séries':
+      addSerie();
+      break;
+    case 'Livros':
+      addBook();
+      break;
+    default:
+      break;
     }
+
+    this.isInLibrary = true;
+  }
+
+
+  reviewMedia(): void {
+    this.dialog.open(ReviewDialogComponent, {
+      width: '40vw',
+      data: { message: 'Olá, faça sua avaliação!' }
+    }).afterClosed().subscribe({
+      next: () => {
+        this.navigateToPage(ROUTE_NAMES.details_page, `${this.itemId}|${this.title}`);
+      }
+    });
+  }
+
+  getToPreviousPage(): void {
+    this.navigateToPage(ROUTE_NAMES.list_content, this.title);
   }
 }

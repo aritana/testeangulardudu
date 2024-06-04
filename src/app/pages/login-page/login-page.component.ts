@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavigationService } from '../../services/navigation.service';
-import { StorageService } from '../../services/storage.service';
+import { ROUTE_NAMES } from '../../app.routes';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login-page',
@@ -15,16 +16,18 @@ import { StorageService } from '../../services/storage.service';
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   username: string;
   password: string;
   errorMessage: string;
 
+  ROUTE_NAMES = ROUTE_NAMES;
+
   constructor(
-    private navigationService: NavigationService,
     private fb: FormBuilder,
-    private storageService: StorageService
+    private navigationService: NavigationService,
+    private loginService: LoginService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -36,10 +39,6 @@ export class LoginPageComponent {
     this.errorMessage = '';
   }
 
-  navigateToPage(page: string, title: string) {
-    this.navigationService.navigateToPage(page, title);
-  }
-
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -47,20 +46,15 @@ export class LoginPageComponent {
     });
   }
 
+  navigateToPage(page: string, title: string): void {
+    this.navigationService.navigateToPage(page, title);
+  }
+
   login(): void {
-    if (this.username === 'admin' && this.password === 'admin') {
-      this.storageService.saveData('isAdmin', { value: true });
-      this.navigateToPage('admin-page', '');
+    if (this.loginForm.valid) {
+      this.loginService.login(this.loginForm.value);
     } else {
-      this.errorMessage = 'Credenciais inválidas. Tente novamente.';
+      this.errorMessage = 'Por favor, preencha o formulário corretamente.';
     }
-  }
-
-  isEmailInvalid() {
-    return false;
-  }
-
-  isPasswordInvalid() {
-    return false;
   }
 }

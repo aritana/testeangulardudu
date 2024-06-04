@@ -1,16 +1,17 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Observable, catchError, throwError } from 'rxjs';
+import { MediaComment } from '../models/media-comment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  BACK_END_BASE_URL="https://lendopsserver.vercel.app";
-  BOOKS_API_BASE_URL="https://openlibrary.org"
-  MOVIES_API_BASE_URL="https://api.themoviedb.org/3";
+  // BACK_END_BASE_URL='https://lendopsserver.vercel.app';
+  BACK_END_BASE_URL='http://localhost:3000';
+  BOOKS_API_BASE_URL='https://openlibrary.org';
+  MOVIES_API_BASE_URL='https://api.themoviedb.org/3';
   moviesApikey;
   language;
   httpOptions;
@@ -30,10 +31,10 @@ export class ApiService {
 
   private post<T>(url: string, data: any): Observable<any> {
     return this.http.post<T>(`${url}`, data, { headers:this.httpOptions })
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: Error | HttpErrorResponse) {
+  private handleError(error: Error | HttpErrorResponse): Observable<never> {
     return throwError(error.message);
   }
 
@@ -50,11 +51,11 @@ export class ApiService {
 
   getMovieDetails(id: string): Observable<any> {
     return this.get(`${this.MOVIES_API_BASE_URL}/movie/${id}`,
-    {
-      api_key: this.moviesApikey,
-      language: this.language,
-      per_page: 5
-    });
+      {
+        api_key: this.moviesApikey,
+        language: this.language,
+        per_page: 5
+      });
   }
 
   getTvShowByName(movieName: string): Observable<any> {
@@ -70,11 +71,11 @@ export class ApiService {
 
   getTvShowDetails(id: string): Observable<any> {
     return this.get(`${this.MOVIES_API_BASE_URL}/tv/${id}`,
-    {
-      api_key: this.moviesApikey,
-      language: this.language,
-      per_page: 5
-    });
+      {
+        api_key: this.moviesApikey,
+        language: this.language,
+        per_page: 5
+      });
   }
 
   getBookByName(bookName: string): Observable<any> {
@@ -115,7 +116,7 @@ export class ApiService {
   }
 
   getBookById(id: string): Observable<any> {
-    return this.get(`${this.BACK_END_BASE_URL}/books/'${id}'`);
+    return this.get(`${this.BACK_END_BASE_URL}/books/${id}`);
   }
 
   addMovie(post: any): Observable<any> {
@@ -139,7 +140,34 @@ export class ApiService {
   }
 
   removeBookById(id: string): Observable<any> {
-    this.getAllBooks().subscribe(nxt => console.log(nxt));
     return this.http.delete<any>(`${this.BACK_END_BASE_URL}/books/${encodeURIComponent(id)}`);
+  }
+
+  addComment(comment: MediaComment): Observable<any> {
+    return this.post(`${this.BACK_END_BASE_URL}/comments`, comment);
+  }
+
+  getAllComments(): Observable<any> {
+    return this.get(`${this.BACK_END_BASE_URL}/comments`);
+  }
+
+  getAllProfiles(): Observable<any> {
+    return this.get(`${this.BACK_END_BASE_URL}/profiles`);
+  }
+
+  getAllCommentsByMediaId(id: string): Observable<any> {
+    return this.get(`${this.BACK_END_BASE_URL}/comments?mediaId=${id}`);
+  }
+
+  getAllCommentsByUsername(id: string): Observable<any> {
+    return this.get(`${this.BACK_END_BASE_URL}/comments?username=${id}`);
+  }
+
+  removeCommentById(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.BACK_END_BASE_URL}/comments/${id}`);
+  }
+
+  removeProfileById(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.BACK_END_BASE_URL}/profiles/${id}`);
   }
 }

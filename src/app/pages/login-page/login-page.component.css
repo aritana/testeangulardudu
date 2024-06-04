@@ -1,9 +1,14 @@
 .login-container {
-  width: 300px;
+  width: 30vw;
   margin: 0 auto;
   text-align: center;
   padding: 20px;
   border-radius: 5px;
+}
+
+.login-div {
+  background-color: purple;
+  padding: 3vh;
 }
 
 .form-group {
@@ -26,15 +31,6 @@ input[type="password"] {
   box-sizing: border-box;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  background-color: #007bff;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
 button:hover {
   background-color: #0056b3;
@@ -48,4 +44,8 @@ button:hover {
 
 h2 {
   color: white;
+}
+
+.btn-limit {
+  min-width: 100%;
 }

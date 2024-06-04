@@ -19,20 +19,26 @@
                 <p>{{itemDescription}}</p>
               </div>
               <div class="row" style="padding-top: 20px;">
-                <p-rating [(ngModel)]="itemRating" [readonly]="true" [cancel]="false" [disabled]="true"/>
+                <ngb-rating [max]="5" [(rate)]="itemRating" [readonly]="true" size="small"></ngb-rating>
               </div>
               <div class="row" style="padding-top: 25px;">
-                <div class="col-sm-6">
+                <div *ngIf="!isInLibrary && isAdmin" class="col-sm-4">
                   <button class="btn btn-primary" (click)="addToLibrary()">Adicionar</button>
                 </div>
-                <div class="col-sm-6">
+                <div *ngIf="isInLibrary && isAdmin" class="col-sm-4">
                   <button class="btn btn-primary" (click)="removeFromLibrary()">Remover</button>
+                </div>
+                <div class="col-sm-4">
+                  <button class="btn btn-primary" (click)="reviewMedia()">Avaliar</button>
+                </div>
+                <div class="col-sm-4">
+                  <button class="btn btn-primary" (click)="getToPreviousPage()">Voltar</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-4">
           <app-coments-content></app-coments-content>
         </div>
         <div class="col-lg-1"></div>

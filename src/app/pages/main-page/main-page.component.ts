@@ -12,7 +12,7 @@ export class MainPageComponent {
 
   constructor(private navigationService: NavigationService) {}
 
-  navigateToPage(page: string, title: string) {
+  navigateToPage(page: string, title: string): void {
     this.navigationService.navigateToPage(page, title);
   }
 }

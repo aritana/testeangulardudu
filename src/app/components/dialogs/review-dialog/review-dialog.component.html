@@ -1,0 +1,12 @@
+<div class="review-dialog">
+  <h2 class="title">Deixe sua revisão</h2>
+  <div class="rating-container">
+    <ngb-rating [max]="5" [(rate)]="rating" [readonly]="false"></ngb-rating>
+  </div>
+  <textarea class="comment" [(ngModel)]="comment" placeholder="Comentário"></textarea>
+  <div class="button-container">
+    <button class="btn btn-primary" (click)="sendReview()">Enviar</button>
+    <button class="btn btn-primary" (click)="closeDialog()">Fechar</button>
+  </div>
+  <p *ngIf="hasSendErrors">{{errorMessage}}</p>
+</div>

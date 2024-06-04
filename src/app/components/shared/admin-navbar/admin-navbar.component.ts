@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationService } from '../../../services/navigation.service';
-import { StorageService } from '../../../services/storage.service';
+import { LogoutService } from '../../../services/logout.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -12,20 +11,12 @@ import { StorageService } from '../../../services/storage.service';
 export class AdminNavbarComponent {
 
   constructor(
-    private navigationService: NavigationService,
-    private storageService: StorageService
+    private logoutService: LogoutService
   ) {
 
   }
 
-  navigateToPage(page: string, title: string) {
-    this.navigationService.navigateToPage(page, title);
+  logout(): void {
+    this.logoutService.logout();
   }
-
-
-  logout() {
-    this.storageService.saveData('isAdmin', { value: false });
-    this.navigateToPage('login-page', '');
-  }
-
 }

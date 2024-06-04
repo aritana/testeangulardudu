@@ -20,28 +20,28 @@ export class ContentSelectComponent implements OnInit {
     this.navPage = '';
   }
 
-  navigateToPage(page: string, title: string) {
+  navigateToPage(page: string, title: string): void {
     this.navigationService.navigateToPage(page, title);
   }
 
   ngOnInit(): void {
     switch (this.title) {
-      case 'filmes':
-        this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-        this.navPage = 'list-content';
-        break;
-      case 'series':
-        this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-        this.navPage = 'list-content';
-        break;
-      case 'livros':
-        this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-        this.navPage = 'list-content';
-        break;
-      default:
-        this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
-        this.navPage = 'list-content';
-        break;
+    case 'filmes':
+      this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
+      this.navPage = 'list-content';
+      break;
+    case 'series':
+      this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
+      this.navPage = 'list-content';
+      break;
+    case 'livros':
+      this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
+      this.navPage = 'list-content';
+      break;
+    default:
+      this.imageSrc = '../../../../assets/images/filmes-catalogo.jpg';
+      this.navPage = 'list-content';
+      break;
     }
   }
 }

@@ -40,3 +40,8 @@
 h3 {
   color: white;
 }
+
+ngb-rating {
+  color: #88ff00;
+  font-size: 0.8em;
+}

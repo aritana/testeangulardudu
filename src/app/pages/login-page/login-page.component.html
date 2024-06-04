@@ -1,19 +1,26 @@
-
 <div class="login-container">
-  <div class="row" style="padding-bottom: 10vh;">
-
-  </div>
-  <div class="row">
-    <h2>Login</h2>
-    <div class="form-group">
-      <label for="username">Usuário:</label>
-      <input type="text" id="username" [(ngModel)]="username" />
-    </div>
-    <div class="form-group">
-      <label for="password">Senha:</label>
-      <input type="password" id="password" [(ngModel)]="password" />
-    </div>
-    <button (click)="login()">Entrar</button>
-    <p class="error-message">{{ errorMessage }}</p>
+  <div class="row" style="padding-bottom: 10vh;"></div>
+  <div class="row login-div div-shadow div-rounded">
+    <h2 style="padding-bottom: 3vh;">Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" formControlName="username" />
+      </div>
+      <div class="form-group" style="padding-bottom: 3vh;">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" formControlName="password" />
+      </div>
+      <div class="mb-3 d-flex justify-content-between">
+        <button type="button" class="btn btn-success btn-sm me-1" (click)="login()">
+          Login
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm me-1"
+          (click)="navigateToPage(ROUTE_NAMES.create_account, '')">
+          Cadastrar
+        </button>
+      </div>
+      <p class="error-message">{{ errorMessage }}</p>
+    </form>
   </div>
 </div>

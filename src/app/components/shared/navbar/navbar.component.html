@@ -2,21 +2,27 @@
   <div class="row">
     <div class="col-lg-4 col-sm-4 col-left" style="height: 5vh">
       <a href="/" class="d-flex align-items-center" style="height: 5vh">
-        <img src="../../../../assets/images/logo.png" alt="LendOps" style="max-height: 100%; max-width: 100px;">
-        <h1 class="ml-2 mb-0">LendOps</h1>
+        <img src="../../../../assets/images/logo.png" alt="LendOps" i18n-alt style="max-height: 100%; max-width: 100px;">
+        <h1 i18n class="ml-2 mb-0">LendOps</h1>
       </a>
     </div>
     <div class="col-lg-6 col-sm-4 col-center d-inline" style="height: 5vh">
-      <p (click)="navigateToPage('explore-page','Explorar')" class="hoverable d-inline mr-3 p-link">Explorar</p>
-      <p (click)="navigateToPage('list-content', 'Livros')" class="hoverable d-inline mr-3 p-link">Livros</p>
-      <p (click)="navigateToPage('list-content', 'Séries')" class="hoverable d-inline mr-3 p-link">Séries</p>
-      <p (click)="navigateToPage('list-content', 'Filmes')" class="hoverable d-inline p-link">Filmes</p>
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.explore_page, 'Explorar')" class="hoverable d-inline mr-3 p-link">Explorar</p>
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.list_content, 'Livros')" class="hoverable d-inline mr-3 p-link">Livros</p>
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.list_content, 'Séries')" class="hoverable d-inline mr-3 p-link">Séries</p>
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.list_content, 'Filmes')" class="hoverable d-inline p-link">Filmes</p>
     </div>
-    <div *ngIf="isAdmin()" class="col-lg-2 col-sm-4 col-right" style="height: 5vh">
-      <p (click)="navigateToPage('admin-page','Admin')" class="hoverable d-inline mr-3 p-link">Gerenciar</p>
+    <div *ngIf="isLoggedIn && isAdmin" class="col-lg-2 col-sm-4 col-right" style="height: 5vh">
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.admin_page,'Admin')" class="hoverable d-inline mr-3 p-link">Gerenciar</p>
     </div>
-    <div *ngIf="!isAdmin()" class="col-lg-2 col-sm-4 col-right" style="height: 5vh">
-      <p (click)="navigateToPage('user-page','Perfil')" class="hoverable d-inline mr-3 p-link">Perfil</p>
+    <div *ngIf="isLoggedIn && !isAdmin" class="col-lg-2 col-sm-4 col-right" style="height: 5vh">
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.user_page,'Perfil')" class="hoverable d-inline mr-3 p-link">Perfil</p>
+    </div>
+    <div *ngIf="!isLoggedIn && !isAdmin" class="col-lg-1 col-sm-4 col-right" style="height: 3vh">
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.create_account,'Criar conta')" class="hoverable d-inline mr- p-link signin">Sign In</p>
+    </div>
+    <div *ngIf="!isLoggedIn && !isAdmin" class="col-lg-1 col-sm-4 col-right" style="height: 5vh">
+      <p i18n (click)="navigateToPage(ROUTE_NAMES.login_page,'Perfil')" class="hoverable d-inline mr-3 p-link">Login</p>
     </div>
   </div>
 </div>

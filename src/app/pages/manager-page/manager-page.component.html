@@ -3,17 +3,17 @@
 <div class="container-flex col-sm-11 admin-div mx-auto">
   <div class="row">
     <div class="col-sm-12 text-center">
-      <h3>Gerenciar {{title}}</h3>
+      <h3 i18n>Gerenciar {{title}}</h3>
     </div>
   </div>
 
-  <div class="row">
+  <div *ngIf="shouldShowSearchBar" class="row">
     <div class="col-sm-10">
       <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]='searchText' placeholder="Insira o nome que deseja buscar">
+        <input type="text" class="form-control" [(ngModel)]='searchText' placeholder="Insira o nome que deseja buscar" i18n-placeholder>
         <div class="input-group-append">
-          <button class="btn btn-primary" (click)="search()">Buscar</button>
-          <button class="btn btn-primary" (click)="loadInventory()">Ver Catálogo</button>
+          <button i18n class="btn btn-primary" (click)="search()">Buscar</button>
+          <button i18n class="btn btn-primary" (click)="loadInventory()">Ver Catálogo</button>
         </div>
       </div>
     </div>
@@ -30,16 +30,19 @@
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
-          <td>
-            <img [src]="rowData.banner_url" alt="Imagem" style="max-width: 10vh;">
+          <td *ngIf="shouldShowSearchBar">
+            <img [src]="rowData.banner_url" alt="Imagem" i18n-alt style="max-width: 10vh;">
           </td>
           <td *ngFor="let col of columns">
             <div *ngIf="col.header !== 'Capa'">
               {{rowData[col.field]}}
             </div>
           </td>
-          <td>
+          <td *ngIf="shouldShowSearchBar">
             <button class="btn btn-primary" (click)="showDetails(rowData.id)">Detalhes</button>
+          </td>
+          <td *ngIf="!shouldShowSearchBar">
+            <button class="btn btn-primary" (click)="removeItem(rowData.id)">Remove</button>
           </td>
         </tr>
       </ng-template>

@@ -3,10 +3,14 @@
   <div *ngFor="let comment of comments" class="comment">
     <div class="comment-header">
       <span class="username">{{comment.username}}</span>
+      <ngb-rating [max]="5" [(rate)]="comment.rating" [readonly]="true" size="small"></ngb-rating>
       <span class="date">{{comment.date | date:'short'}}</span>
     </div>
     <div class="comment-body">
       <p>{{comment.comment}}</p>
+    </div>
+    <div *ngIf="showRemoveOption">
+      <button class="btn btn-primary" (click)="removeComment(comment.id)">X</button>
     </div>
   </div>
 </div>

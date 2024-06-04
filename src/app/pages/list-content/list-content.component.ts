@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from '../../services/navigation.service';
 import { ApiService } from '../../services/api.service';
-import { StorageService } from '../../services/storage.service';
+import { STORAGE_KEYS, StorageService, StorageValueTypes } from '../../services/storage.service';
+import { ROUTE_NAMES } from '../../app.routes';
 
 @Component({
   selector: 'app-list-content',
@@ -13,20 +13,19 @@ import { StorageService } from '../../services/storage.service';
   styleUrl: './list-content.component.css'
 })
 export class ListContentComponent implements OnInit {
-  title: string;
+  title: StorageValueTypes;
   imageSrcs: any[][];
   isLoadingImages: boolean;
   pageLimit: number;
 
   constructor(
     private navigationService: NavigationService,
-    private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private storageService: StorageService
   ) {
 
-    if(!this.storageService.retrieveData('isAdmin').value) {
-      this.navigateToPage('login-page','');
+    if(!this.storageService.retrieveData(STORAGE_KEYS.isLoggedIn)) {
+      this.navigateToPage(ROUTE_NAMES.login_page,'');
     }
 
     this.pageLimit = 6;
@@ -35,37 +34,34 @@ export class ListContentComponent implements OnInit {
     this.imageSrcs = [];
   }
 
-  navigateToPage(page: string, title: string) {
+  navigateToPage(page: string, title: string): void {
     this.navigationService.navigateToPage(page, title);
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.title = params['title'];
-    });
+    this.title = this.storageService.retrieveData(STORAGE_KEYS.currentMediaType);
 
     switch (this.title) {
-      case 'Filmes':
-        this.getMovieImages();
-        break;
+    case 'Filmes':
+      this.getMovieImages();
+      break;
 
-      case 'Séries':
-        this.getSeriesImages();
-        break;
+    case 'Séries':
+      this.getSeriesImages();
+      break;
 
-      case 'Livros':
-        this.getBookImages();
-        break;
+    case 'Livros':
+      this.getBookImages();
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
-
   }
 
-  getMovieImages() {
+  getMovieImages(): void {
     this.imageSrcs = [];
-    const moviesArray: { id: string; }[] = [];
+    const moviesArray: Array<{ id: string; }> = [];
     this.apiService.getAllMovies().subscribe({
       next: movies => {
         movies.forEach((movie: { id: string; }) => {
@@ -98,9 +94,9 @@ export class ListContentComponent implements OnInit {
     });
   }
 
-  getSeriesImages() {
+  getSeriesImages(): void {
     this.imageSrcs = [];
-    const seriesArray: { id: string; }[] = [];
+    const seriesArray: Array<{ id: string; }> = [];
     this.apiService.getAllSeries().subscribe({
       next: movies => {
         movies.forEach((movie: { id: string; }) => {
@@ -133,9 +129,9 @@ export class ListContentComponent implements OnInit {
     });
   }
 
-  getBookImages() {
+  getBookImages(): void {
     this.imageSrcs = [];
-    const booksArray: { id: string; }[] = [];
+    const booksArray: Array<{ id: string; }> = [];
     this.apiService.getAllBooks().subscribe({
       next: movies => {
         movies.forEach((movie: { id: string; }) => {
@@ -171,14 +167,14 @@ export class ListContentComponent implements OnInit {
   }
 
 
-  buscarImagemFilme(url: string) {
-    const baseUrl = "https://image.tmdb.org/t/p/";
-    const size = "w500";
+  buscarImagemFilme(url: string): string {
+    const baseUrl = 'https://image.tmdb.org/t/p/';
+    const size = 'w500';
 
     return `${baseUrl}${size}/${url}`;
   }
 
-  navigateToPageByIndex(index: number) {
+  navigateToPageByIndex(index: number): void {
     this.navigateToPage('details-page', `${index}|${this.title}`);
   }
 }

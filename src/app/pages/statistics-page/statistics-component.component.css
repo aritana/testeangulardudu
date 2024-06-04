@@ -1,0 +1,42 @@
+/* Estilos para o contêiner do gráfico */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura de 100% do viewport height para centralizar verticalmente */
+  position: relative; /* Para que os elementos absolutos dentro deste contêiner sejam posicionados em relação a ele */
+}
+
+/* Estilos para o título */
+h2 {
+  color: white; /* Cor do texto branca */
+  font-size: 2.5em; /* Tamanho da fonte aumentado */
+  margin-bottom: 20px; /* Espaço abaixo do título */
+  position: absolute; /* Posição absoluta para flutuar acima do gráfico */
+  top: 10px; /* Ajuste conforme necessário para posicionar o título */
+  left: 50%; /* Centralizar horizontalmente */
+  transform: translateX(-50%); /* Para garantir a centralização */
+  z-index: 1; /* Para garantir que o título esteja acima do gráfico */
+}
+
+/* Estilos para o gráfico */
+#MyChart {
+  width: 200%; /* Largura do gráfico */
+  height: 200%; /* Altura do gráfico */
+  max-width: 900px; /* Largura máxima do gráfico */
+  max-height: 900px; /* Altura máxima do gráfico */
+  background-color: rgb(220, 221, 210);
+}
+
+/* Estilos para o texto dentro do gráfico */
+.chart-text {
+  font-size: 18px; /* Tamanho da fonte aumentado */
+  color: #aa1a1a; /* Cor do texto branca */
+  background-color: wheat;
+}
+
+/* Estilos para o rótulo dos datasets */
+.chart-labels {
+  color: rgba(255, 255, 0, 0.8); /* Cor dos rótulos (branco com uma tonalidade de amarelo) */
+  font-weight: bold; /* Fonte em negrito */
+}

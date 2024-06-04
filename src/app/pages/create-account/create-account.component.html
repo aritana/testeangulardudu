@@ -1,1 +1,53 @@
-<p>create-account works!</p>
+<div class="container mt-5 div-shadow div-rounded" >
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+            <div class="card transparent-card">
+                <div class="card-body text-center">
+                    <span class="titulo">Criar Conta</span>
+                    <form class="mt-3" [formGroup]="accountForm" (ngSubmit)="createAccount()">
+                        <div class="mb-3">
+                            <input type="text" formControlName="name" class="form-control form-control-lg"
+                                placeholder="Nome" />
+                            <div class="text-danger" *ngIf="accountForm.get('name')?.hasError('required')">
+                                <span>O nome <strong>é obrigatório</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" formControlName="username" class="form-control form-control-lg"
+                                placeholder="Usuário" />
+                            <div class="text-danger" *ngIf="accountForm.get('username')?.hasError('required')">
+                                <span>O usuário <strong>é obrigatório</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" formControlName="password" class="form-control form-control-lg"
+                                placeholder="Senha" />
+                            <div class="text-danger" *ngIf="accountForm.get('password')?.hasError('required')">
+                                <span>A senha <strong>é obrigatória</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email" formControlName="email" class="form-control form-control-lg"
+                                placeholder="Email" />
+                            <div class="text-danger" *ngIf="accountForm.get('email')?.hasError('required')">
+                                <span>O email <strong>é obrigatório</strong></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between">
+                            <button type="button" class="btn btn-success btn-sm me-1" (click)="createAccount()">
+                                Criar Conta
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm me-1" (click)="goBack()">
+                                Voltar
+                            </button>
+                        </div>
+                        <p class="error-message text-danger mb-0">{{ errorMessage }}</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
