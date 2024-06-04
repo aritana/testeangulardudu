@@ -4,7 +4,7 @@ import { AdminNavbarComponent } from '../../components/shared/admin-navbar/admin
 import { ApiService } from '../../services/api.service';
 import { MovieList } from '../../models/movie';
 import { FormsModule } from '@angular/forms';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { STORAGE_KEYS, StorageService, StorageValueTypes } from '../../services/storage.service';
 import { ROUTE_NAMES } from '../../app.routes';
@@ -142,7 +142,6 @@ export class ManagerPageComponent implements OnInit{
     const searchSeries = (): void => {
       this.apiService.getTvShowByName(this.searchText).subscribe({
         next: show => {
-          console.log(show);
           this.movieList = show;
           this.loadResults();
         },
@@ -232,7 +231,6 @@ export class ManagerPageComponent implements OnInit{
     const loadPerfis = (): void => {
       this.lendopsService.getAllUsers().subscribe({
         next: users => {
-          console.log(users);
           users.forEach((user: any) => {
             this.rowData.push(user);
           });
@@ -274,11 +272,6 @@ export class ManagerPageComponent implements OnInit{
     return this.tableLoaded;
   }
 
-  getNextPage($event: TableLazyLoadEvent): void {
-    console.log($event);
-    return;
-  }
-
   loadInventory(): void {
     this.tableLoaded = false;
     this.loadingTable = true;
@@ -287,7 +280,6 @@ export class ManagerPageComponent implements OnInit{
     const getMoviesInventory = (): void => {
       this.apiService.getAllMovies().subscribe({
         next: movies => {
-          console.log('AAA');
           movies.forEach((movie: { id: string; }) => {
             this.apiService.getMovieDetails(movie.id).subscribe({
               next: value => {
@@ -332,7 +324,6 @@ export class ManagerPageComponent implements OnInit{
             this.apiService.getExternalBookById(book.id).subscribe({
               next: v => {
                 const value = v[`ISBN:${book.id}`];
-                console.log(value);
                 this.rowData.push({
                   ...value,
                   authoredBy: value.authors[0].name,

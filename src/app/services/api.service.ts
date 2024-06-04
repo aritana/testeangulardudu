@@ -8,8 +8,8 @@ import { MediaComment } from '../models/media-comment';
 })
 export class ApiService {
 
-  // BACK_END_BASE_URL='https://lendopsserver.vercel.app';
-  BACK_END_BASE_URL='http://localhost:3000';
+  BACK_END_BASE_URL='https://lendopsserver.vercel.app';
+  // BACK_END_BASE_URL='http://localhost:3000';
   BOOKS_API_BASE_URL='https://openlibrary.org';
   MOVIES_API_BASE_URL='https://api.themoviedb.org/3';
   moviesApikey;
